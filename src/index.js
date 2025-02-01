@@ -27,7 +27,3 @@ function calculateNewRate(memberRate, rivalRate) {
     return "Invalid imput of rate (it must be numbers)";
   }
 }
-console.log(calculateNewRate(2, 1));
-console.log(calculateNewRate(16, 2));
-console.log(calculateNewRate(30, 2));
-console.log(calculateNewRate(15, 20));
