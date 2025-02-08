@@ -1,29 +1,42 @@
 "use strict";
 /**
- *
- * @param {number} memberRate - Rate of member
- * @param {number} rivalRate - Rate of rival
- * @returns New rate for member
+ * Calculate new rate for winner
+ * @param {number} winnerRate - Rate of member
+ * @param {number} looserRate - Rate of rival
+ * @returns {number} New rate for member
  */
 
-function calculateNewRate(memberRate, rivalRate) {
-  if (typeof memberRate === "number" && memberRate >= 0) {
-    if (memberRate >= rivalRate) {
-      const DIFFERENCE = memberRate - rivalRate;
-      if (DIFFERENCE >= 0 && DIFFERENCE <= 2) {
-        return memberRate + 2;
-      } else if (DIFFERENCE > 2 && DIFFERENCE < 20) {
-        return memberRate + 1;
-      } else if (DIFFERENCE >= 20) {
-        return memberRate;
-      }
-    } else if (memberRate <= rivalRate) {
-      let newRate = (rivalRate - memberRate + 5) / 3;
-      return newRate.toFixed(1);
-    } else if (memberRate === 0) {
-      return rivalRate;
+function calculateNewRate(winnerRate, looserRate) {
+  if (
+    winnerRate < 0 ||
+    looserRate < 0 ||
+    typeof winnerRate !== "number" ||
+    typeof looserRate !== "number" ||
+    Number.isNaN(winnerRate - looserRate)
+  ) {
+    return NaN;
+  }
+
+  if (winnerRate >= looserRate) {
+    const difference = winnerRate - looserRate;
+    if (difference >= 0 && difference <= 2) {
+      return winnerRate + 2;
     }
-  } else {
-    return "Invalid imput of rate (it must be numbers)";
+    if (difference > 2 && difference < 20) {
+      return winnerRate + 1;
+    }
+    if (difference >= 20) {
+      return winnerRate;
+    }
+  }
+  if (winnerRate === 0) {
+    return looserRate;
+  }
+  if (winnerRate < looserRate) {
+    return (looserRate - winnerRate + 5) / 3 + winnerRate;
   }
 }
+
+let winnerScore = 13;
+let looserScore = 5;
+console.log(calculateNewRate(winnerScore, looserScore).toFixed(1));
